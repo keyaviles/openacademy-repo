@@ -1,46 +1,51 @@
 <odoo>
     <!-- explicit list view definition -->
-<!--
-    <record model="ir.ui.view" id="openacademy.list">
-      <field name="name">openacademy list</field>
-      <field name="model">openacademy.openacademy</field>
+
+    <record model="ir.ui.view" id="course_form_view">
+      <field name="name">course.form</field>
+      <field name="model">openacademy.course</field>
       <field name="arch" type="xml">
-        <tree>
-          <field name="name"/>
-          <field name="value"/>
-          <field name="value2"/>
-        </tree>
+         <form string="Course Form">
+              <sheet>
+                  <group>
+                      <field name="name" />
+                      <field name="description" />
+                  </group>
+              </sheet>
+              <notebook>
+                  <page string="Description">
+                      <field name="description" />
+                  </page>
+                  <page string="About">
+                      Este es un ejemplo de notebooks
+                  </page>
+              </notebook>
+
+            </form>       
       </field>
     </record>
--->
 
-    <!-- actions opening views on models -->
-
-    <record model="ir.actions.act_window" id="course_list_action">
-      <field name="name">Courses</field>
-      <field name="res_model">openacademy.course</field>
-      <field name="view_mode">tree,form</field>
-      <field name="help" type="html" >
-          <p class="oe_view_nocontent_create"> Create the first course </p>
+    <record model="ir.ui.view" id="course_list_view">
+      <field name="name">course.list</field>
+      <field name="model">openacademy.course</field>
+      <field name="arch" type="xml">
+         <tree string="Course Form">
+                      <field name="name" string="Name Tree" />
+                      <field name="description" />
+            </tree>       
       </field>
     </record>
 
-
-    <!-- server action to the one above -->
-<!--
-    <record model="ir.actions.server" id="openacademy.action_server">
-      <field name="name">openacademy server</field>
-      <field name="model_id" ref="model_openacademy_openacademy"/>
-      <field name="state">code</field>
-      <field name="code">
-        action = {
-          "type": "ir.actions.act_window",
-          "view_mode": "tree,form",
-          "res_model": model._name,
-        }
+      <record model="ir.ui.view" id="course_search_view">
+      <field name="name">course.search</field>
+      <field name="model">openacademy.course</field>
+      <field name="arch" type="xml">
+         <search string="Course Form">
+                      <field name="name" string="Name Search"/>
+                      <field name="description" />
+          </search>       
       </field>
     </record>
--->
 
     <!-- Top menu item -->
 
