@@ -3,6 +3,10 @@
 from odoo import models, fields, api
 import time
 
+def get_uid(self,*a):
+    # import pdb; pdb.set_trace()
+    return self.env.uid;
+
 
 class Course(models.Model):
     _name = 'openacademy.course'
@@ -12,7 +16,7 @@ class Course(models.Model):
     description=fields.Text()
     responsable_id=fields.Many2one(
         'res.users',string="Responsible",
-        index=True,ondelete='set null')
+        index=True,ondelete='set null',default=get_uid)
     sessions_ids=fields.One2many('openacademy.session','course_id')
 
 class Session(models.Model):
@@ -20,8 +24,8 @@ class Session(models.Model):
     _description='Clase o modelo para definir sesiones'
 
     name=fields.Char(required=True)
-    start_date=fields.Date()
-    #datetime_test=fields.Datetime(default=time.strftime('%Y-%m-%d %H:%M:%S'))
+    start_date=fields.Date(default=fields.Date.today)
+    datetime_test=fields.Datetime(default=fields.Datetime.now)
     duration=fields.Float(digits=(6,2),help="Duration in days")
     seats=fields.Integer(string="Number of seats")
     instructor_id=fields.Many2one('res.partner','Instructor',domain=['|',('instructor','=','True'),('category_id.name','ilike','Teacher')])
@@ -29,10 +33,13 @@ class Session(models.Model):
                                 string="Course", required=True)
     attendee_ids=fields.Many2many('res.partner',string="Attendees")
     taken_seats=fields.Float(compute='_taken_seats')
+    active=fields.Boolean(default=True)
 
     @api.depends('seats','attendee_ids')
     def _taken_seats(self):
-        import pdb; pdb.set_trace()
-        #for record in self.filtered(lambda r: r.seats != 0):
-        for record in self.filtered(lambda r: r.seats):
-            record.taken_seats= 100.0 * len(record.attendee_ids) / record.seats
+        #import pdb; pdb.set_trace()
+        for r in self:
+            if not r.seats:
+                r.taken_seats = 0.0
+            else:
+                r.taken_seats = 100.0 * len(r.attendee_ids) / r.seats
