@@ -98,6 +98,7 @@
                             <label for="attendee_ids" />
                             <field name="attendee_ids" nolabel="1"/>
                             <field name="active"/>
+                           
                         </group>
                     </sheet>
                 </form>
@@ -118,6 +119,7 @@
                             <field name="taken_seats" widget="progressbar"/>
                             <field name="instructor_id" />
                             <field name="course_id" />
+                            <field name="create_date"/>
                 </tree>
             </field>
         </record>
