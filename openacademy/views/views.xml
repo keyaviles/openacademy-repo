@@ -220,15 +220,29 @@
                   parent="openacademy_menu"
                   action="session_list_action"/>
 
-
-    <!-- actions -->
-<!--
-    <menuitem name="List" id="openacademy.menu_1_list" parent="openacademy.menu_1"
-              action="openacademy.action_window"/>
-    <menuitem name="Server to list" id="openacademy" parent="openacademy.menu_2"
-              action="openacademy.action_server"/>
--->
-
-
+        <record model="ir.ui.view" id="wizard_form_view">
+            <field name="name">wizard.form</field>
+            <field name="model">openacademy.wizard</field>
+            <field name="arch" type="xml"> 
+                <form string="Add Attendees" >
+                    <group>
+                        <field name="session_ids" />
+                        <field name="attendee_ids" />
+                    </group> 
+                    <footer>
+                        <button name="subscribe" type="object" string="Subscribe" class="oe_highlight"/>
+                        or
+                        <button special="cancel" string="Cancel" />
+                    </footer>
+                </form>
+            </field> 
+        </record>
+        <act_window id="launch_session_wizard"
+                    name="Add Attendees"
+                    binding_model="openacademy.session"
+                    res_model="openacademy.wizard"
+                    view_mode="form"
+                    target="new"
+                     />
 
 </odoo>
