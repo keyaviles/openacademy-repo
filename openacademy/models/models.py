@@ -84,7 +84,6 @@ class Session(models.Model):
         for record in self:
             record.attendees_count=len(record.attendee_ids)
 
-
     @api.depends('start_date','duration')
     def _get_end_date(self):
         for record in self:
