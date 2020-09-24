@@ -15,7 +15,6 @@ print(user.name)            # name of the user connected
 print(user.company_id.name) # the name of its company
 
 # Simple 'raw' query
-user_data = odoo.execute('res.users', 'read', [user.id])
-print(user_data)
+                                 
 
 odoo.execute('openacademy.course','create',{'name':'Course created from odoolib'})
