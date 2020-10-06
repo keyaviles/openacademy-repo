@@ -73,13 +73,17 @@ class Session(models.Model):
         "openacademy.course", ondelete="cascade", string="Course", required=True
     )
     attendee_ids = fields.Many2many("res.partner", string="Attendees")
-    taken_seats = fields.Float(compute="_taken_seats", store=True)
+    taken_seats = fields.Float(compute="_compute_taken_seats", store=True)
     active = fields.Boolean(default=True)
-    end_date = fields.Date(store=True, compute="_get_end_date", inverse="_set_end_date")
-    attendees_count = fields.Integer(compute="_get_attendees_count", store=True)
+    end_date = fields.Date(
+        store=True, compute="_compute_get_end_date", inverse="_inverse_set_end_date"
+    )
+    attendees_count = fields.Integer(compute="_compute_get_attendees_count", store=True)
     color = fields.Float()
     hours = fields.Float(
-        string="Duration in hours", compute="_get_hours", inverse="_set_hours"
+        string="Duration in hours",
+        compute="_compute_get_hours",
+        inverse="_inverse_set_hours",
     )
 
     @api.depends("duration")
@@ -92,12 +96,12 @@ class Session(models.Model):
             r.duration = r.hours / 24
 
     @api.depends("attendee_ids")
-    def _get_attendees_count(self):
+    def _compute_get_attendees_count(self):
         for record in self:
             record.attendees_count = len(record.attendee_ids)
 
     @api.depends("start_date", "duration")
-    def _get_end_date(self):
+    def _compute_get_end_date(self):
         for record in self:
             if not (record.start_date and record.duration):
                 record.end_date = record.start_date
@@ -107,7 +111,7 @@ class Session(models.Model):
             # import pdb; pdb.set_trace()
             record.end_date = start_date + timedelta(days=record.duration, seconds=-1)
 
-    def _set_end_date(self):
+    def _inverse_set_end_date(self):
         for record in self:
             if not (record.start_date and record.duration):
                 continue
@@ -117,7 +121,7 @@ class Session(models.Model):
             record.duration = (end_date - start_date).days + 1
 
     @api.depends("seats", "attendee_ids")
-    def _taken_seats(self):
+    def _compute_taken_seats(self):
         # import pdb; pdb.set_trace()
         for r in self:
             if not r.seats:

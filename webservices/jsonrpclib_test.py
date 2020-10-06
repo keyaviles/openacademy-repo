@@ -19,7 +19,7 @@ def json_rpc(url, method, params):
     req = urllib.request.Request(
         url=url,
         data=json.dumps(data).encode(),
-        headers={"Content-Type": "application/json",},
+        headers={"Content-Type": "application/json"},
     )
     reply = json.loads(urllib.request.urlopen(req).read().decode("UTF8"))
     if reply.get("error"):

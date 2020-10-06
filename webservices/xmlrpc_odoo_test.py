@@ -10,7 +10,7 @@ ROOT = "http://%s:%d/xmlrpc/" % (HOST, PORT)
 
 # 1. Login
 uid = xmlrpc.client.ServerProxy(ROOT + "common").login(DB, USER, PASS)
-print("Logged in as %s (uid:%d)" % (USER, uid))
+# print("Logged in as %s (uid:%d)" % (USER, uid))
 
 call = functools.partial(
     xmlrpc.client.ServerProxy(ROOT + "object").execute, DB, uid, PASS
@@ -20,19 +20,19 @@ call = functools.partial(
 sessions = call(
     "openacademy.session", "search_read", [], ["name", "seats", "course_id"]
 )
-for session in sessions:
-    print(
-        "Session %s (%s seats) %s "
-        % (session["name"], session["seats"], session["course_id"])
-    )
+# for session in sessions:
+#     print(
+#         "Session %s (%s seats) %s "
+#         % (session["name"], session["seats"], session["course_id"])
+#     )
 # 3.create a new session
 session_id = call(
-    "openacademy.session", "create", {"name": "My session webservice", "course_id": 26,}
+    "openacademy.session", "create", {"name": "My session webservice", "course_id": 26}
 )
 
 course_id = call("openacademy.course", "search", [("name", "ilike", "Course 1")])[0]
 session_id = call(
     "openacademy.session",
     "create",
-    {"name": "My session assigned", "course_id": course_id,},
+    {"name": "My session assigned", "course_id": course_id},
 )

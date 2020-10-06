@@ -13,7 +13,7 @@
 #             'objects': http.request.env['openacademy.openacademy'].search([]),
 #         })
 
-#     @http.route('/openacademy/openacademy/objects/<model("openacademy.openacademy"):obj>/', auth='public')
+#     @http.route('/openacademy/openacademy/objects/<model("openacademy.openacademy"):obj>/', auth='public')   # noqa
 #     def object(self, obj, **kw):
 #         return http.request.render('openacademy.object', {
 #             'object': obj
