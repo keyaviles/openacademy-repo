@@ -1,6 +1,6 @@
 <odoo>
 
-    <report
+    <!-- <report
         id="report_session"
         model="openacademy.session"
         string="Session Report"
@@ -28,6 +28,12 @@
                 </t>
             </t>
         </t>
-    </template>
+    </template> -->
+    <!-- <record id="report_session">
+        <field name="name">openacademy.report_session_view</field>
+        <field name="model">openacademy.report_session_view</field>
+
+
+    </record> -->
 
 </odoo>
